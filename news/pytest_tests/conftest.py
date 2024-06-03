@@ -1,5 +1,5 @@
 import pytest
-
+from django.conf import settings
 from django.test.client import Client
 from news.models import Comment, News
 
@@ -54,3 +54,13 @@ def comment(news, author):
 @pytest.fixture
 def id_comment_for_args(comment):
     return (comment.id,)
+
+@pytest.fixture
+def news_bulk_create():
+    all_news = [
+        News(title=f'Новость {index}', text='Просто текст.')
+        for index in range(settings.NEWS_COUNT_ON_HOME_PAGE + 1)
+    ]
+    news_bulk_create = News.objects.bulk_create(all_news)
+
+    return news_bulk_create
