@@ -1,8 +1,7 @@
 import pytest
 
 from django.test.client import Client
-
-from news.models import News
+from news.models import Comment, News
 
 
 @pytest.fixture
@@ -30,10 +29,28 @@ def not_author_client(not_author):
 
 
 @pytest.fixture
-def new(author):
-    new = News.objects.create(
+def news():
+    news = News.objects.create(
         title='Заголовок',
-        text='Текст',
-        author=author,
+        text='Текст'
     )
-    return new
+    return news
+
+
+@pytest.fixture
+def id_for_args(news):
+    return (news.id,)
+
+
+@pytest.fixture
+def comment(news, author):
+    comment = Comment.objects.create(
+        text='Text',
+        news=news,
+        author=author
+    )
+    return comment
+
+@pytest.fixture
+def id_comment_for_args(comment):
+    return (comment.id,)
