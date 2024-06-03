@@ -1,4 +1,5 @@
 import pytest
+from datetime import datetime, timedelta
 from django.conf import settings
 from django.test.client import Client
 from news.models import Comment, News
@@ -57,8 +58,13 @@ def id_comment_for_args(comment):
 
 @pytest.fixture
 def news_bulk_create():
+    today = datetime.today()
     all_news = [
-        News(title=f'Новость {index}', text='Просто текст.')
+        News(
+            title=f'Новость {index}',
+            text='Просто текст.',
+            date=today - timedelta(days=index)
+        )
         for index in range(settings.NEWS_COUNT_ON_HOME_PAGE + 1)
     ]
     news_bulk_create = News.objects.bulk_create(all_news)
