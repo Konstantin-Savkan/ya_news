@@ -5,7 +5,9 @@ from django.urls import reverse
 from django.conf import settings
 from django.test.client import Client
 from news.models import Comment, News
+from news.forms import BAD_WORDS, WARNING
 
+COMMENT_TEXT = 'Текст комментария'
 
 @pytest.fixture
 def author(django_user_model):
@@ -89,4 +91,9 @@ def news_with_comment(author):
         comment.created = now + timedelta(days=index)
         comment.save()
     return detail_url
-     
+
+
+@pytest.fixture
+def form_data():
+    form_data = {'text': COMMENT_TEXT}
+    return form_data
