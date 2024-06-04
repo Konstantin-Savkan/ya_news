@@ -8,6 +8,7 @@ from news.models import Comment, News
 from news.forms import BAD_WORDS, WARNING
 
 COMMENT_TEXT = 'Текст комментария'
+NEW_COMMENT_TEXT = 'Обновлённый комментарий'
 
 @pytest.fixture
 def author(django_user_model):
@@ -50,7 +51,7 @@ def id_for_args(news):
 @pytest.fixture
 def comment(news, author):
     comment = Comment.objects.create(
-        text='Text',
+        text=COMMENT_TEXT,
         news=news,
         author=author
     )
@@ -95,5 +96,5 @@ def news_with_comment(author):
 
 @pytest.fixture
 def form_data():
-    form_data = {'text': COMMENT_TEXT}
+    form_data = {'text': NEW_COMMENT_TEXT}
     return form_data
